@@ -1,0 +1,45 @@
+﻿{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block content %}
+		<div class="load-page">
+			<div class="row">				
+				<div class="col-md-3 login-box-left">
+				</div>
+				<div class="col-md-6">
+					<form action="{% url 'load_from_file' %}" method="post" class="loginform" role="form" enctype="multipart/form-data">
+						{% csrf_token %}
+						<h4>Carregamento por arquivo CSV</h4>
+						{% bootstrap_form form %}
+						<div class="form-group">
+							<label for="usr">Arquivo:</label>
+							<input id="load_csv" type="file" name="files[]">
+						</div>
+						<script>
+						$(function(){
+						//http://www.fyneworks.com/jquery/multifile/#Usage
+						  $('#load_csv').MultiFile({
+							accept:'csv',
+							max: 1,
+							maxsize:1024*20,
+							STRING: {
+							  file: '$file',
+							  remove:'Remover',  
+							  selected:'Selecionado: $file', 
+							  denied:'Tipo de arquivo inválido: $ext!', 
+							  duplicate:'Arquivo ja selecionado:\n$file!',
+							  toomuch: 'Os arquivos selecionados excedem o tamanho máximo permitido ($size)',
+							  toobig:'$file é muito grande (max $size)'
+							}
+						  });
+						});
+						</script>
+						<button type="submit" class="btn btn-default bt_login">Enviar</button>
+						<input type="hidden" name="next" value="{{ next }}" />
+					</form>
+				</div>				
+				<div class="col-md-3 login-box-left">
+				</div>
+			</div>
+		</div>
+{% endblock content %}

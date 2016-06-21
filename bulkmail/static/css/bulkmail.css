@@ -1,0 +1,32 @@
+﻿html, body{margin: 0 auto; width: 100%}
+
+.index-page{margin-top: 20px;}
+
+.container{
+	margin: 10px auto;
+	width: 100%;
+}
+
+.login-box{
+	margin-top: 50px;
+}
+
+.login-box-left{
+	text-align: center;
+}
+
+.login-box-right h4{
+	text-align: center;
+}
+
+.loginform{
+	max-width: 320px;
+}
+
+#condominio{font-size: 175%;}
+
+th, tr{text-align: center;}
+
+td{padding: 0 5px;}
+
+table{width: 100%;}

@@ -1,0 +1,9 @@
+﻿
+{% load bootstrap3 %}
+			<form action="{% url 'change_pwd' value=value %}" method="post" role="form">
+				<h4>Alterar senha:</h4>
+				{% csrf_token %}
+				{% bootstrap_form form %}
+				<button type="submit" class="btn btn-default bt_login">Salvar</button>
+				<input type="hidden" name="next" value="{{ next }}" />
+			</form>
