@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import locale
-locale.setlocale(locale.LC_ALL, 'portuguese_brazil')
+locale.setlocale(locale.LC_ALL, 'pt_BR')
 from django.shortcuts import (
 	render, redirect, render_to_response
 	)
