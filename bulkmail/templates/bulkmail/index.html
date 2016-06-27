@@ -5,20 +5,28 @@
 	<div class="index-page">
 		<div class="box-search">
 			<div class="row">
-				<div class="col-md-2">
-					<label for="codscc">Pesquise pelo código SCC:</label>
-					<input type="search" class="form-control" id="code" name="codscc">					
-					<input type="submit" class="btn btn-default" name="bt-codscc" value="Pesquisar" onclick="get_data_condominium()">
+				<div class="col-md-6" data-toggle="tooltip" title="Pesquise pelo código SCC sem o zero (ex: 173).">
+					<div class="col-md-4">
+						<label for="codscc">Pesquise pelo código SCC:</label>
+					</div>
+					<div class="col-md-4">
+						<input type="search" class="form-control" id="code" name="codscc">
+					</div>
+					<div class="col-md-4">
+						<input type="submit" class="btn btn-default" name="bt-codscc" value="Pesquisar" onclick="get_data_condominium()">
+					</div>
 				</div>
-				<div class="col-md-4">
-					<label for="sel1">Pesquise pelo nome do condomínio:</label>
-					<select class="form-control" id="name" onchange="get_data_condominium(this.value)">
-						<option value="#"  selected disabled></option>
-						<div class="form-group" id="erro"></div>
-					</select>
+				<div class="col-md-6" data-toggle="tooltip" title="Pesquise pelo nome do condomínio selecionando-o na lista.">
+					<div class="col-md-6">
+						<label for="sel1">Pesquise pelo nome do condomínio:</label>
+					</div>
+					<div class="col-md-6">
+						<select class="form-control" id="name" onchange="get_data_condominium(this.value)">
+							<option value="#"  selected disabled></option>
+							<div class="form-group" id="erro"></div>
+						</select>
+					</div>
 				</div>
-				<div class="col-md-6">
-				</div>	
 			</div>
 		</div>
 		<hr>
@@ -56,7 +64,7 @@
 						<div class="form-group">
 							<label for="usr">Arquivos:</label>
 							<input id="fileupload" type="file" name="files[]">
-							<p style="font-size:11px">* Tamanho máximo permitido: 10MB</p>
+							<p style="font-size:11px">* Tamanho máximo total permitido: 10MB</p>
 						</div>
 						<div class="form-group">
 							<label for="usr">Assunto:</label>
