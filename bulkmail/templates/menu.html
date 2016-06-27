@@ -29,7 +29,7 @@
 				{% endif %}
               </ul>
               <ul class="nav navbar-nav navbar-right">
-				<li><a>Usuário: {{ user|title }}</a></li>
+				<li><a>Usuário: <strong>{{ user|title }}</strong></a></li>
 				<li><a href="{% url 'user_change_pwd' %}">Alterar senha</a></li>
                 <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
               </ul>
