@@ -1,4 +1,23 @@
-﻿from django import forms
+﻿# -*- coding: utf-8 -*-
+#------------------------------------------------------------------------------
+#
+#Copyright 2016 Elder Sanitá Trevisan
+#
+#This file is part of BulkMail.
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#------------------------------------------------------------------------------
+
+from django import forms
 from .models import *
 from django.contrib.auth.models import User
 
@@ -95,7 +114,6 @@ class CondominiumForm(forms.ModelForm):
 		super(CondominiumForm, self).__init__(*args, **kwargs)
 		self.fields["scc_code"].widget.attrs['autofocus'] = 'autofocus'
 
-
 class ResidentForm(forms.ModelForm):
 	class Meta:
 		model = Resident
@@ -105,6 +123,7 @@ class ResidentForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(ResidentForm, self).__init__(*args, **kwargs)
 		self.fields["condominium"].widget.attrs['autofocus'] = 'autofocus'
+		self.fields['condominium'].queryset = Condominium.objects.order_by('name_condominium')
 
 
 class EditResidentForm(forms.ModelForm):
@@ -122,3 +141,7 @@ class LoadFromFileForm(forms.ModelForm):
 	class Meta:
 		model = Resident
 		fields = ['condominium']
+		
+	def __init__(self, *args, **kwargs):
+		super(LoadFromFileForm, self).__init__(*args, **kwargs)
+		self.fields['condominium'].queryset = Condominium.objects.order_by('name_condominium')

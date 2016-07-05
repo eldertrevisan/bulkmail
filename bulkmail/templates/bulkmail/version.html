@@ -1,0 +1,27 @@
+﻿{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block content %}
+	<div class="version-page">
+		<h1>Notas de versão</h1>
+		<hr>
+		<div style="background-color: #E6E6E6;">
+			<p>05/07/2016</p>
+			<p>Versão: 1.1</p>
+			<p>Atualizações:</p>
+			<ul>
+				<li>Correção no campo de pesquisa por código SCC na página principal;</li>
+				<li>Carregamento por arquivo pode atualizar condôminos (antes podia somente adicionar condôminos)</li>
+				<li>Adicionado a página "notas de versão"
+			</ul>
+		</div>
+		
+		<hr>
+		
+		<div>
+			<p>15/06/2016</p>
+			<p>Versão: 1.0</p>
+			<p>Lançamento do sistema</p>
+		</div>
+	</div>
+{% endblock content %}

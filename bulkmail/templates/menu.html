@@ -16,7 +16,7 @@
 				<ul class="dropdown-menu">
 					<li><a href="{% url 'add_condominium' %}">Adicionar condomínio</a></li>
 					<li><a href="{% url 'manage_resident' %}">Gerenciar condôminos</a></li>
-					<li><a href="{% url 'load_from_file' %}">Adicionar condôminos por arquivo</a></li>
+					<li><a href="{% url 'load_from_file' %}">Carregamento por arquivo</a></li>
 				</ul>
 				</li>
 				{% if user.is_superuser %}
@@ -27,6 +27,7 @@
 				</ul>
 				</li>
 				{% endif %}
+				<li><a href="{% url 'version' %}">Notas de versão</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
 				<li><a>Usuário: <strong>{{ user|title }}</strong></a></li>

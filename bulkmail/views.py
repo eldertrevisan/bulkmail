@@ -1,8 +1,30 @@
 # -*- coding: utf-8 -*-
+#------------------------------------------------------------------------------
+#
+#Copyright 2016 Elder Sanitá Trevisan
+#
+#This file is part of BulkMail.
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#------------------------------------------------------------------------------
+
 import locale
-locale.setlocale(locale.LC_ALL, 'pt_BR')
+try:
+	locale.setlocale(locale.LC_ALL, 'pt_BR')
+except:
+	locale.setlocale(locale.LC_ALL, 'portuguese_brazil')
+
 from django.shortcuts import (
-	render, redirect, render_to_response
+	render, redirect, render_to_response, get_list_or_404
 	)
 from django.contrib.auth import (
     logout as logout_user, login as login_user, authenticate
@@ -205,6 +227,7 @@ def change_pwd(request, value):
 		form = ChangePwdForm()
 		return render(request, "bulkmail/change_pwd.html", {'form':form, 'value':value})
 
+@login_required(login_url='/login/')
 def user_change_pwd(request):
 	if request.method == "POST":
 		user = request.user
@@ -224,9 +247,9 @@ def codscc(request, value):
 	if request.method == "GET":
 		code = value
 		data = {'condominium':None, 'residents':None}
-		cond = Condominium.objects.filter(scc_code=code).order_by('name_condominium')
+		cond = get_list_or_404(Condominium, scc_code=code)
 		data['condominium'] = serializers.serialize('json', cond)
-		resid = Resident.objects.filter(condominium=cond.values('id'))
+		resid = Resident.objects.filter(condominium=cond[0].id)
 		data['residents'] = serializers.serialize('json', resid)
 		return HttpResponse(json.dumps(data), content_type="application/json")
 
@@ -248,7 +271,7 @@ def list_condominium(request):
 
 @login_required(login_url='/login/')
 def load_from_file(request):
-	title = "BulkMail | Adicionar arquivos por arquivo"
+	title = "BulkMail | Carregamento por arquivo"
 	if request.method == "POST":
 		id_cond = request.POST["condominium"]
 		cond = Condominium.objects.get(id=id_cond)
@@ -260,31 +283,43 @@ def load_from_file(request):
 			if len(new_row[1]) > 10 and len(new_row[2]) > 10:
 				#print("Unidade >> ",new_row[0],"Nome >> ",new_row[1]," - E-mail >> ",len(new_row[2]))
 				
-				Resident.objects.create(
+				obj, created = Resident.objects.update_or_create(
 						num_un = new_row[0],
-						type_of_resident = "P",
-						name_resident = new_row[1],
-						email_resident = new_row[2],
-						who_modify = user,
-						condominium = cond)
-				
+						condominium = cond,
+						type_of_resident="P",
+						defaults={
+							'name_resident':new_row[1],
+							'email_resident':new_row[2],
+							'who_modify':user
+						})
+			else:
+				Resident.objects.filter(condominium=cond, num_un=new_row[0], type_of_resident="P").delete()
+
 			if len(new_row[3]) > 10 and len(new_row[4]) > 10:
 				#print("\nUnidade >> ",new_row[0],"Nome >> ",new_row[3]," - E-mail >> ",len(new_row[4]))
 				
-				Resident.objects.create(
+				obj, created = Resident.objects.update_or_create(
 						num_un = new_row[0],
+						condominium = cond,
 						type_of_resident = "M",
-						name_resident = new_row[3],
-						email_resident = new_row[4],
-						who_modify = user,
-						condominium = cond)
-				
+						defaults={
+							'name_resident':new_row[3],
+							'email_resident':new_row[4],
+							'who_modify':user
+						})
+			else:
+				Resident.objects.filter(condominium=cond, num_un=new_row[0], type_of_resident = "M").delete()
+
 		return HttpResponseRedirect("/load_from_file/")
 	else:
 		form = LoadFromFileForm()
 	return render(request, "bulkmail/load_from_file.html", {
 		'title':title, 'form':form
 		})
+
+def version(request):
+	title = "BulkMail | Notas de versão"
+	return render(request, "bulkmail/version.html", {'title':title})
 
 def login(request):
 	title = "BulkMail | Login"

@@ -1,47 +1,62 @@
-﻿//FUNÇÃO DE REQUISIÇÃO AJAX PARA BUSCAR OS MORADORES DO CONDOMÍNIO DIGITADO
+﻿/*
+Copyright 2016 Elder Sanitá Trevisan
+
+This file is part of BulkMail.
+
+Foobar is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Foobar is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+//FUNÇÃO DE REQUISIÇÃO AJAX PARA BUSCAR OS MORADORES DO CONDOMÍNIO DIGITADO OU PELO LISTBOX
 function get_data_condominium() {
 	var value = $("#code").val() || $("#name").val();
-    $.ajax({
-        url : "codscc/"+value, // the endpoint
-        type : "GET", // http method
-        data : { value : value }, // data sent with the post request
-		dataType: 'json', // Choosing a JSON datatype
-        // handle a successful response
-        success : function(data) {
-			var residents = jQuery.parseJSON(data.residents);
+	$.ajax({
+		url: "codscc/"+value,
+		type: "GET",
+		data: { value : value },
+		success: function(data) {
 			var condominium = jQuery.parseJSON(data.condominium);
-			if (condominium[0] != null){
-				$('#erro').html('');
-				$('#moradores').html('');
-				$('#code').val('');
-				$('#name').val('');
-				$('#condominio').html(
-					condominium[0].fields.name_condominium
-					//"<h5>Data última alteração: "+condominium[0].last_modified+"</h5>"+
-					//"<h5>Quem alterou: "+condominium[0].who_modified+"</h5>"
-					);
-				for (var i=0; i < residents.length; i++){
-					$("#moradores").append(					
-						"<tr style='vertical-align: middle'>"+
-						"<td><input type='checkbox' name='resident_email' value="+residents[i].fields.email_resident+"></td>"+
-						"<td>"+residents[i].fields.num_un+"</th>"+
-						"<td>"+residents[i].fields.type_of_resident+"</td>"+
-						"<td>"+residents[i].fields.name_resident+"</td>"+
-						"<td>"+residents[i].fields.email_resident+"</td>"+
-						"</tr>"
-					)				
-				};
-			}else{
-				$('#erro').html(
-					"<strong>Código ainda não cadastrado ou inválido!</strong>"
-				);
-			}
-        },
-		error : function(xhr,errmsg,err){
-			console.log("#ERRO >> "+xhr + ":" + err);
+			var residents = jQuery.parseJSON(data.residents);
+			$('#erro').html('');
+			$('#moradores').html('');
+			$('#code').val('');
+			$('#name').val('');
+			$('#condominio').html(
+				condominium[0].fields.name_condominium
+			);
+			for (var i=1; i < residents.length; i++){
+				$("#moradores").append(					
+					"<tr style='vertical-align: middle'>"+
+					"<td><input type='checkbox' name='resident_email' value="+residents[i].fields.email_resident+"></td>"+
+					"<td>"+residents[i].fields.num_un+"</th>"+
+					"<td>"+residents[i].fields.type_of_resident+"</td>"+
+					"<td>"+residents[i].fields.name_resident+"</td>"+
+					"<td>"+residents[i].fields.email_resident+"</td>"+
+					"</tr>"
+				)				
+			};
+		},
+		error : function(){
+			$('#erro').html('');
+			$('#moradores').html('');
+			$('#code').val('');
+			$('#name').val('');
+			$('#erro').html(
+				"<strong>Código ainda não cadastrado ou inválido!</strong>"
+			);
 		}
-	});
-};
+	})
+}
 
 //FUNÇÃO PARA O CHECKBOX DA TABELA DE RELAÇÃO DE MORADORES
 $(document).ready(function(){

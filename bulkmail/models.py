@@ -1,3 +1,22 @@
+# -*- coding: utf-8 -*-
+#------------------------------------------------------------------------------
+#
+#Copyright 2016 Elder Sanitá Trevisan
+#
+#This file is part of BulkMail.
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#------------------------------------------------------------------------------
+
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -32,7 +51,7 @@ class Resident(models.Model):
 	name_resident = models.CharField(verbose_name="Nome do condômino", max_length=200)
 	email_resident = models.EmailField(verbose_name="E-mail do condômino", max_length=254, unique=True)
 	condominium = models.ForeignKey('Condominium', on_delete=models.CASCADE, verbose_name="Condomínio")
-	last_modified = models.DateField(default=timezone.now())
+	last_modified = models.DateField(default=timezone.now)
 	who_modify = models.ForeignKey('UserProfile')
 	
 	def __str__(self):
