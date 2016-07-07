@@ -279,36 +279,39 @@ def load_from_file(request):
 		csvfile = request.FILES["files[]"]
 		for row in csvfile:
 			new_row = str(row.decode("utf-8", "ignore")).split(';')
+			try:
+				if len(new_row[14]) > 10:
+					#print("Unidade >> ",new_row[3],"Nome >> ",new_row[5]," - E-mail >> ",new_row[14])				
+					obj, created = Resident.objects.update_or_create(
+							num_un = new_row[3],
+							condominium = cond,
+							type_of_resident="P",
+							defaults={
+								'name_resident':new_row[5],
+								'email_resident':new_row[14],
+								'who_modify':user
+							})
+				else:
+					Resident.objects.filter(condominium=cond, num_un=new_row[3], type_of_resident="P").delete()
+			except:
+				pass
 			
-			if len(new_row[1]) > 10 and len(new_row[2]) > 10:
-				#print("Unidade >> ",new_row[0],"Nome >> ",new_row[1]," - E-mail >> ",len(new_row[2]))
-				
-				obj, created = Resident.objects.update_or_create(
-						num_un = new_row[0],
-						condominium = cond,
-						type_of_resident="P",
-						defaults={
-							'name_resident':new_row[1],
-							'email_resident':new_row[2],
-							'who_modify':user
-						})
-			else:
-				Resident.objects.filter(condominium=cond, num_un=new_row[0], type_of_resident="P").delete()
-
-			if len(new_row[3]) > 10 and len(new_row[4]) > 10:
-				#print("\nUnidade >> ",new_row[0],"Nome >> ",new_row[3]," - E-mail >> ",len(new_row[4]))
-				
-				obj, created = Resident.objects.update_or_create(
-						num_un = new_row[0],
-						condominium = cond,
-						type_of_resident = "M",
-						defaults={
-							'name_resident':new_row[3],
-							'email_resident':new_row[4],
-							'who_modify':user
-						})
-			else:
-				Resident.objects.filter(condominium=cond, num_un=new_row[0], type_of_resident = "M").delete()
+			try:
+				if len(new_row[25]) > 10:
+					#print("\nUnidade >> ",new_row[3],"Nome >> ",new_row[15]," - E-mail >> ",new_row[25])
+					obj, created = Resident.objects.update_or_create(
+							num_un = new_row[3],
+							condominium = cond,
+							type_of_resident = "M",
+							defaults={
+								'name_resident':new_row[15],
+								'email_resident':new_row[25],
+								'who_modify':user
+							})
+				else:
+					Resident.objects.filter(condominium=cond, num_un=new_row[3], type_of_resident = "M").delete()
+			except:
+				pass
 
 		return HttpResponseRedirect("/load_from_file/")
 	else:
