@@ -49,7 +49,7 @@ class Resident(models.Model):
 	num_un = models.CharField(verbose_name="Número da unidade", max_length=25)
 	type_of_resident = models.CharField(max_length=1, choices=TYPE_OF_RESID_CHOICES, verbose_name="Tipo")
 	name_resident = models.CharField(verbose_name="Nome do condômino", max_length=200)
-	email_resident = models.EmailField(verbose_name="E-mail do condômino", max_length=254, unique=True)
+	email_resident = models.EmailField(verbose_name="E-mail do condômino", max_length=254)
 	condominium = models.ForeignKey('Condominium', on_delete=models.CASCADE, verbose_name="Condomínio")
 	last_modified = models.DateField(default=timezone.now)
 	who_modify = models.ForeignKey('UserProfile')
