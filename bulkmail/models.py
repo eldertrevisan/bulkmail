@@ -34,8 +34,8 @@ class UserProfile(models.Model):
 
 
 class Condominium(models.Model):
-	scc_code = models.PositiveSmallIntegerField(verbose_name="Código SCC")
-	name_condominium = models.CharField(verbose_name="Nome do condomínio", max_length=200)
+	scc_code = models.PositiveSmallIntegerField(verbose_name="Código SCC", unique=True)
+	name_condominium = models.CharField(verbose_name="Nome do condomínio", max_length=200, unique=True)
 	
 	def __str__(self):
 		return self.name_condominium
