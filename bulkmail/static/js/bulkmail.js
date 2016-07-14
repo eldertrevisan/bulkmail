@@ -27,6 +27,7 @@ function get_data_condominium() {
 		success: function(data) {
 			var condominium = jQuery.parseJSON(data.condominium);
 			var residents = jQuery.parseJSON(data.residents);
+			console.log(residents);
 			$('#erro').html('');
 			$('#moradores').html('');
 			$('#code').val('');
@@ -34,7 +35,7 @@ function get_data_condominium() {
 			$('#condominio').html(
 				condominium[0].fields.name_condominium
 			);
-			for (var i=1; i < residents.length; i++){
+			for (var i=0; i < residents.length; i++){
 				$("#moradores").append(					
 					"<tr style='vertical-align: middle'>"+
 					"<td><input type='checkbox' name='resident_email' value="+residents[i].fields.email_resident+"></td>"+

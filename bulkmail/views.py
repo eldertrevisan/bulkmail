@@ -57,7 +57,8 @@ def send_bulk_mail(request):
 	user = UserProfile.objects.get(user=request.user.id)
 	if request.method == "POST":
 		files = request.FILES.getlist("files[]")
-		list_emails = request.POST.getlist("resident_email")
+		emails = request.POST.getlist("resident_email")
+		list_emails = list(set(emails))
 		subject = request.POST["subject"]
 		aditional_email = request.POST["aditional_email"]
 		if len(aditional_email) > 0:
